@@ -2,17 +2,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class MonthReportService {
-    ArrayList<MonthReport> Reports;
+    ArrayList<MonthReport> reports;
     FileReader fileReader;
 
     MonthReportService(){
-        Reports = new ArrayList<>();
+        reports = new ArrayList<>();
         fileReader = new FileReader();
     }
 
-    ArrayList<MonthReport> GetMonthReports(boolean refreshData){ //Сохранение отчётов
-        if(Reports.size() != 0 && !refreshData){
-            return Reports;
+    ArrayList<MonthReport> getMonthReports(boolean refreshData){ //Сохранение отчётов
+        if(reports.size() != 0 && !refreshData){
+            return reports;
         }
         for (int i = 1; i <= 12; i++) {
             ArrayList<String> lines;
@@ -23,38 +23,38 @@ public class MonthReportService {
             }
             if (lines.size() != 0) {
                 var report = new MonthReport(); //вызов списка для сохранения данных месячных отчётов
-                report.Records = new ArrayList<>();
-                report.MonthName = MonthNameHelper.MonthNames.get(i); //получение имени месяца из хэш-таблицы NameHelper'a
-                report.MonthNumber = i;
+                report.records = new ArrayList<>();
+                report.monthName = MonthNameHelper.monthNames.get(i); //получение имени месяца из хэш-таблицы NameHelper'a
+                report.monthNumber = i;
                 lines.remove(0);
                 for(String item : lines){
                     var record = new MonthReportRecord(item);
-                    report.Records.add(record); //заполнение списка с отчётами
+                    report.records.add(record); //заполнение списка с отчётами
                 }
-                Reports.add(report); //сохранение данных из отчётов
+                reports.add(report); //сохранение данных из отчётов
             }
         }
-        return Reports;
+        return reports;
     }
 
-    void PopulateMonthRecords() { //вывод информации из отчётов
-        if (Reports.size() == 0) {
+    void populateMonthRecords() { //вывод информации из отчётов
+        if (reports.size() == 0) {
             System.out.println("Отчёты отсутствуют.");
         } else {
-            for (MonthReport report : Reports) {
-                System.out.println(report.MonthName);
-                var mostProfitable = GetMostProfitableProduct(report);
-                var mostExpensiveProduct = GetMostExpensiveProduct(report);
+            for (MonthReport report : reports) {
+                System.out.println(report.monthName);
+                var mostProfitable = getMostProfitableProduct(report);
+                var mostExpensiveProduct = getMostExpensiveProduct(report);
                 System.out.println("Самый прибыльный товар: " + mostProfitable.itemName + " " + mostProfitable.quantity * mostProfitable.unitPrice);
                 System.out.println("Самая большая трата: " + mostExpensiveProduct.itemName + " " + mostExpensiveProduct.quantity * mostExpensiveProduct.unitPrice);
             }
         }
     }
 
-    private MonthReportRecord GetMostProfitableProduct(MonthReport report){ //получение самого прибыльного товара
+    private MonthReportRecord getMostProfitableProduct(MonthReport report){ //получение самого прибыльного товара
         var profitableRecords = new ArrayList<MonthReportRecord>();
 
-        for(MonthReportRecord record : report.Records){
+        for(MonthReportRecord record : report.records){
             if(!record.isExpense){
                 profitableRecords.add(record);
             }
@@ -65,9 +65,9 @@ public class MonthReportService {
         return mostProfitable;
     }
 
-    MonthReportRecord GetMostExpensiveProduct(MonthReport report){ //получение самого дорогого товара
+    MonthReportRecord getMostExpensiveProduct(MonthReport report){ //получение самого дорогого товара
         var expensiveRecords = new ArrayList<MonthReportRecord>();
-        for(MonthReportRecord record : report.Records){
+        for(MonthReportRecord record : report.records){
             if(record.isExpense){
                 expensiveRecords.add(record);
             }
@@ -77,18 +77,18 @@ public class MonthReportService {
         var mostProfitable = expensiveRecords.get(expensiveRecords.size() - 1);
         return mostProfitable;
     }
-    Integer GetMonthExpenses(MonthReport report){ //получение месячных затрат
+    Integer getMonthExpenses(MonthReport report){ //получение месячных затрат
         var monthExpenses = 0;
-        for(MonthReportRecord record : report.Records){
+        for(MonthReportRecord record : report.records){
             if(record.isExpense)
                 monthExpenses += record.quantity * record.unitPrice;
         }
         return monthExpenses;
     }
 
-    Integer GetMonthIncome(MonthReport report){ //получение месячной прибыли
+    Integer getMonthIncome(MonthReport report){ //получение месячной прибыли
         var monthExpenses = 0;
-        for(MonthReportRecord record : report.Records){
+        for(MonthReportRecord record : report.records){
             if(!record.isExpense)
                 monthExpenses += record.quantity * record.unitPrice;
         }

@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class MonthNameHelper {
-    public static HashMap<Integer, String> MonthNames = new HashMap<>(){ //хэш-таблица для удобства вывода имён месяцев
+    public static HashMap<Integer, String> monthNames = new HashMap<>(){ //хэш-таблица для удобства вывода имён месяцев
         {  put(1, "Январь");  }
         {  put(2, "Февраль");  }
         {  put(3, "Март");  }

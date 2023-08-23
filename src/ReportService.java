@@ -7,37 +7,37 @@ public class ReportService {
         monthReportService = new MonthReportService();
     }
 
-    public void GetYearReport(String year){ //сохранение годового отчёта
-        yearReportService.GetYearReport(year, true);
+    public void getYearReport(String year){ //сохранение годового отчёта
+        yearReportService.getYearReport(year, true);
         System.out.println("Годовой отчёт загружен.");
     }
 
-    public void GetMonthReports(){ //сохранение месячных отчётов
-        monthReportService.GetMonthReports(true);
+    public void getMonthReports(){ //сохранение месячных отчётов
+        monthReportService.getMonthReports(true);
         System.out.println("Информация обо всех месячных отчётах загружена.");
     }
 
-    public void PopulateYearReport(String year){ //вывод информации из годового отчёта
-        yearReportService.PopulateYearReport(year);
+    public void populateYearReport(String year){ //вывод информации из годового отчёта
+        yearReportService.populateYearReport(year);
 
     }
 
-    public void PopulateMonthReport(){ //вывод информации обо всех месячных отчётах
-        monthReportService.PopulateMonthRecords();
+    public void populateMonthReport(){ //вывод информации обо всех месячных отчётах
+        monthReportService.populateMonthRecords();
     }
 
-    public void CompareReports(String year){ //сравнение месячных отчётов и годового
-        var yearReport = yearReportService.GetYearReport(year, false);
-        var monthlyReports = monthReportService.GetMonthReports(false);
+    public void compareReports(String year){ //сравнение месячных отчётов и годового
+        var yearReport = yearReportService.getYearReport(year, false);
+        var monthlyReports = monthReportService.getMonthReports(false);
         boolean issues = false;
         for(MonthReport monthReport : monthlyReports){
-            var yearlyMonthRecord = yearReport.records.get(monthReport.MonthNumber);
-            var monthReportIncome = monthReportService.GetMonthIncome(monthReport);
-            var monthReportExpense = monthReportService.GetMonthExpenses(monthReport);
+            var yearlyMonthRecord = yearReport.records.get(monthReport.monthNumber);
+            var monthReportIncome = monthReportService.getMonthIncome(monthReport);
+            var monthReportExpense = monthReportService.getMonthExpenses(monthReport);
             if(monthReportExpense.equals(yearlyMonthRecord.expenseAmount) ||
                     monthReportIncome.equals(yearlyMonthRecord.profitAmount))
             {
-                System.out.println("Не совпадают данные за месяц: " + monthReport.MonthName);
+                System.out.println("Не совпадают данные за месяц: " + monthReport.monthName);
                 issues = true;
             }
         }
