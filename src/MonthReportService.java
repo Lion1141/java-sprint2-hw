@@ -10,10 +10,8 @@ public class MonthReportService {
         fileReader = new FileReader();
     }
 
-    ArrayList<MonthReport> getMonthReports(boolean refreshData){ //Сохранение отчётов
-        if(reports.size() != 0 && !refreshData){
-            return reports;
-        }
+    ArrayList<MonthReport> getMonthReports(){ //Сохранение отчётов
+
         for (int i = 1; i <= 12; i++) {
             ArrayList<String> lines;
             if (i < 10) {
@@ -40,7 +38,7 @@ public class MonthReportService {
     void populateMonthRecords() { //вывод информации из отчётов
         if (reports.size() == 0) {
             System.out.println("Отчёты отсутствуют.");
-        } else {
+        }
             for (MonthReport report : reports) {
                 System.out.println(report.monthName);
                 var mostProfitable = getMostProfitableProduct(report);
@@ -49,7 +47,6 @@ public class MonthReportService {
                 System.out.println("Самая большая трата: " + mostExpensiveProduct.itemName + " " + mostExpensiveProduct.quantity * mostExpensiveProduct.unitPrice);
             }
         }
-    }
 
     private MonthReportRecord getMostProfitableProduct(MonthReport report){ //получение самого прибыльного товара
         var profitableRecords = new ArrayList<MonthReportRecord>();

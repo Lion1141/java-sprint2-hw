@@ -10,11 +10,7 @@ public class YearReportService {
         fileReader = new FileReader();
     }
 
-    YearReport getYearReport(String year, boolean refreshData){ //сохранение годового отчёта
-
-        if(reports.containsKey(year) && !refreshData){
-            return reports.get(year);
-        }
+    YearReport getYearReport(String year){ //сохранение годового отчёта
         ArrayList<String> lines = fileReader.readFileContents("y."+ year + ".csv");
         if (lines.size() != 0) {
             lines.remove(0);
